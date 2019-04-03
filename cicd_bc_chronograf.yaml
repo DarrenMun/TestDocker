@@ -15,8 +15,6 @@ spec:
       ref: "master"
   strategy:
     dockerStrategy:
-      noCache: true
-      forcePull: true
       buildargs:
       - name: NEXUS_ARTIFACT_URL
         value: "https://nexus-continuousintegration-dev.app.dev.cpt.ocp.vodacom.corp"
@@ -44,7 +42,7 @@ spec:
       - name: PORT
         value: "8888"
         protocol: TCP
-      dockerfilePath: "TestDocker/Dockerfile"
+      dockerfilePath: "TestDocker/"
   output:
     to:
       kind: "ImageStreamTag"
