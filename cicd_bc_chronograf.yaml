@@ -42,7 +42,7 @@ spec:
       - name: PORT
         value: "8888"
         protocol: TCP
-      dockerfilePath: "TestDocker/chronograf.docker"
+      dockerfilePath: "blob/master/chronograf.docker"
   output:
     to:
       kind: "ImageStreamTag"
