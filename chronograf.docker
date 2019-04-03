@@ -38,7 +38,7 @@ COPY entrypoint.sh  /entrypoint.sh
 COPY default.chronograf /etc/default.chronograf
 
 RUN chmod +- /entrypoint.sh && \
-    chmod +x /usr/src/${PROJECT_NAME}-1.6.2-1/ && \
+    chmod +x /usr/src/chronograf-1.6.2-1/ && \
     chmod +- /etc/default.chronograf
 
 RUN chgrp -R 0 /usr/src/chronograf-1.6.2-1/ /entrypoint.sh  /var/libchronograf-1.6.2-1 /etc/default.chronograf && \
