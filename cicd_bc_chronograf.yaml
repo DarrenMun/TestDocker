@@ -12,7 +12,6 @@ spec:
   source:
     git:
       uri: "https://github.com/DarrenMun/TestDocker.git"
-      ref: "master"
   strategy:
     dockerStrategy:
       buildargs:
@@ -42,7 +41,7 @@ spec:
       - name: PORT
         value: "8888"
         protocol: TCP
-      dockerfilePath: "TestDocker/Dockerfile"
+      dockerfilePath: "Dockerfile"
   output:
     to:
       kind: "ImageStreamTag"
