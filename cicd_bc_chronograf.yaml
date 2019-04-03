@@ -11,10 +11,11 @@ metadata:
 spec:
   source:
     git:
-      uri: "https://github.com/DarrenMun/TestDocker"
+      uri: "https://github.com/DarrenMun/TestDocker.git"
+      ref: "master"
     sourceSecret:
       name: ignore-https-gitconf
-    contextDir: chronograf.dockerfile
+    contextDir: containers/cicd/chronograf/dockerfile
   strategy:
     dockerStrategy:
       buildargs:
