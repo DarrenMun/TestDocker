@@ -13,9 +13,6 @@ spec:
     git:
       uri: "https://github.com/DarrenMun/TestDocker.git"
       ref: "master"
-    sourceSecret:
-      name: ignore-https-gitconf
-    contextDir: containers/cicd/
   strategy:
     dockerStrategy:
       buildargs:
