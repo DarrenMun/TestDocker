@@ -12,7 +12,6 @@ spec:
   source:
     git:
       uri: "https://github.com/DarrenMun/TestDocker.git" 
-      ref: "grafana"
     sourceSecret:
       name: ignore-https-gitconf
     contextDir: dockerfile
