@@ -12,10 +12,10 @@ spec:
   source:
     git:
       uri: "https://github.com/DarrenMun/TestDocker.git"
-      ref: "blob/master/chronograf.docker"
+      ref: "master"
     sourceSecret:
       name: ignore-https-gitconf
-    contextDir: dockerfile
+    contextDir: master/chronograf.dockerfile
   strategy:
     dockerStrategy:
       buildargs:
