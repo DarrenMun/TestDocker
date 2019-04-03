@@ -11,11 +11,11 @@ metadata:
 spec:
   source:
     git:
-      uri: "https://pbdpgl1zafsrh.vodacom.corp/cicd/doctrine.git"
+      uri: "https://github.com/DarrenMun/TestDocker.git" 
       ref: "grafana"
     sourceSecret:
       name: ignore-https-gitconf
-    contextDir: containers/cicd/chronograf/dockerfile
+    contextDir: dockerfile
   strategy:
     dockerStrategy:
       buildargs:
