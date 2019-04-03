@@ -12,7 +12,7 @@ spec:
   source:
     git:
       uri: "https://github.com/DarrenMun/TestDocker.git"
-      ref: "master"
+      ref: "blob/master/chronograf.docker"
     sourceSecret:
       name: ignore-https-gitconf
     contextDir: dockerfile
@@ -61,4 +61,19 @@ spec:
         kind: "ImageStreamTag"
         name: "chronograf:1.6.2"
         namespace: "chronograf"
-
+# parameters:
+# - name: SOURCE_REPOSITORY_URL
+#   displayName: Git Repository URL
+#   description: The URL of the repository with the OpenShift templates.
+#   value: https://pbdpgl1zafsrh.vodacom.corp/cicd/doctrine.git
+#   required: true
+# - name: SOURCE_REPOSITORY_REF
+#   displayName: Git Reference
+#   description: Set this to a branch name, tag or other ref of your repository if you are not using the default branch.
+#   value: master
+#   required: true
+# - name: DOCKERFILE_LOCATION
+#   displayName: ruby docker file location
+#   description: The location of the ruby docker files.
+#   value: containers/cicd/jenkins-slaves/ruby
+#   required: true
