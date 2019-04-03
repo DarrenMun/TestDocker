@@ -1,0 +1,55 @@
+#FROM buildpack-deps:stretch-curl
+FROM alpine:3.8
+# - - - Below are all environmental Variables - - - - - - - - - - - - - - - - - - - -
+ENV PROJECT_NAME=chronograf
+ENV CHRONOGRAF_VERSION=1.6.2
+ENV PORT=8888
+
+# - - - Below are Nexus Artifact Arguments - - - - - - - - - - - - - - - - - - - -
+ARG NEXUS_ARTIFACT_REPO="thirdparty"
+ARG NEXUS_GROUP_ID="org/thirdparty/chronograf"
+ARG NEXUS_ARTIFACT_ID="chronograf"
+ARG NEXUS_ARTIFACT_CLASSIFIER="1.6.2"
+ARG NEXUS_ARTIFACT_TYPE="tar.gz"
+ARG NEXUS_ARTIFACT_URL="https://nexus-continuousintegration-dev.app.dev.cpt.ocp.vodacom.corp"
+
+ENV NEXUS_URL="${NEXUS_ARTIFACT_URL}/repository/${NEXUS_ARTIFACT_REPO}/${NEXUS_GROUP_ID}/chronograf/${NEXUS_ARTIFACT_CLASSIFIER}/${NEXUS_ARTIFACT_ID}-${NEXUS_ARTIFACT_CLASSIFIER}.${NEXUS_ARTIFACT_TYPE}"
+
+RUN echo ${NEXUS_URL}
+USER root
+
+RUN apk add --update \
+    curl \
+    && rm -rf /var/cache/apk/*
+
+RUN mkdir -p usr/src && \
+    curl --insecure --fail --remote-name --location --retry 3 "https://dl.influxdata.com/chronograf/releases/chronograf-1.6.2-static_linux_amd64.tar.gz" && \
+    tar -xzvf  chronograf-1.6.2-static_linux_amd64.tar.gz -C /usr/src  && \
+    chmod +x /usr/src/chronograf-1.6.2-1/* && \
+    cp -a /usr/src/chronograf-1.6.2-1/* /usr/bin/ 
+    #rm -f chronograf-1.6.2.tar.gz
+
+RUN mkdir -p var/lib/chronograf-1.6.2-1
+
+EXPOSE 8888
+
+VOLUME "var/lib/chronograf-1.6.2-1"
+
+COPY chronograf.conf /etc/
+COPY entrypoint.sh  /entrypoint.sh
+COPY default.chronograf /etc/default.chronograf
+
+RUN chmod +- /entrypoint.sh && \
+    chmod +x /usr/src/${PROJECT_NAME}-1.6.2-1/ && \
+    chmod +- /etc/default.chronograf
+
+RUN chgrp -R 0 /usr/src/chronograf-1.6.2-1/ /entrypoint.sh  /var/libchronograf-1.6.2-1 /etc/default.chronograf && \
+    chmod -Rf g+rwx /usr/src/chronograf-1.6.2-1/  /entrypoint.sh /var/lib/chronograf-1.6.2-1 /etc/default.chronograf
+
+
+
+#ENTRYPOINT ["/entrypoint.sh"]
+
+CMD "/usr/src/chronograf/chronograf"
+
+USER 1001

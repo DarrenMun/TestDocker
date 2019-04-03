@@ -1,0 +1,64 @@
+apiVersion: v1
+kind: BuildConfig
+metadata:
+  name: "chronograf"
+  labels:
+    app: "cicd-chronograf"
+    version: "1.7"
+  annotations:
+    description: "Builds the MongoDB ebis container."
+    template.alpha.openshift.io/wait-for-ready: "true"
+spec:
+  source:
+    git:
+      uri: "https://pbdpgl1zafsrh.vodacom.corp/cicd/doctrine.git"
+      ref: "grafana"
+    sourceSecret:
+      name: ignore-https-gitconf
+    contextDir: containers/cicd/chronograf/dockerfile
+  strategy:
+    dockerStrategy:
+      buildargs:
+      - name: NEXUS_ARTIFACT_URL
+        value: "https://nexus-continuousintegration-dev.app.dev.cpt.ocp.vodacom.corp"
+      - name: NEXUS_ARTIFACT_REPO
+        value: "thirdparty"
+      - name: NEXUS_GROUP_ID
+        value: "org/thirdparty/chronograf"
+      - name: NEXUS_ARTIFACT_ID
+        value: "chronograf"
+      - name: NEXUS_ARTIFACT_VERSION
+        value: "1.6.2"
+      - name: NEXUS_ARTIFACT_CLASSIFIER
+        value: "1.6.2"
+      - name: NEXUS_ARTIFACT_TYPE
+        value: "tar.gz"
+      env:
+      - name: PROJECT_NAME
+        value: "chronograf"
+      - name: SERVICE_VERSION
+        value: "1.6.2"
+      - name: SERVICE_DESCRIPTION
+        value: "chronograf matrix"
+      - name: SERVICE_MEMORY
+        value: "300M"
+      - name: PORT
+        value: "8888"
+        protocol: TCP
+      dockerfilePath: "chronograf.docker"
+  output:
+    to:
+      kind: "ImageStreamTag"
+      name: "chronograf:1.6.2"
+  triggers:
+  - type: "ConfigChange"
+  - type: "ImageChange"
+    imageChangeParams:
+      automatic: true
+      containerNames:
+      - "chronograf"
+      from:
+        kind: "ImageStreamTag"
+        name: "chronograf:1.6.2"
+        namespace: "ebis-dev"
+
