@@ -11,7 +11,7 @@ metadata:
 spec:
   source:
     git:
-      uri: "https://github.com/DarrenMun/TestDocker/blob/master"
+      uri: "https://github.com/DarrenMun/TestDocker"
     sourceSecret:
       name: ignore-https-gitconf
     contextDir: chronograf.dockerfile
